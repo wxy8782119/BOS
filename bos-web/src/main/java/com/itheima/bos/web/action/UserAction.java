@@ -1,5 +1,7 @@
 package com.itheima.bos.web.action;
 
+import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.itheima.bos.domain.User;
 import com.itheima.bos.service.IUserService;
+import com.itheima.bos.utils.BOSUtils;
 import com.itheima.bos.web.action.base.BaseAction;
 
 @Controller
@@ -53,4 +56,23 @@ public class UserAction extends BaseAction<User> {
 		ServletActionContext.getRequest().getSession().invalidate();
 		return LOGIN;
 	}
+	/**
+	 * 修改当前用户密码
+	 * @throws IOException 
+	 */
+	public String editPassword() throws IOException {
+		String f = "1";
+		//获取当前登录用户
+		User user = BOSUtils.getLoginUser();
+		try {
+			userService.editPassword(user.getId(),model.getPassword());
+		}catch(Exception e) {
+			f = "0";
+			e.printStackTrace();
+		}
+		ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+		ServletActionContext.getResponse().getWriter().print(f);
+		return NONE;
+	}
+	
 }
