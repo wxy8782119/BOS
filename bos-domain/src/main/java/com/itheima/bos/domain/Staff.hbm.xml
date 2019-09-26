@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.itheima.bos.domain.Staff" table="bc_staff">
+        <id name="id" type="string">
+            <column name="id" length="32" />
+            <generator class="uuid" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="20" />
+        </property>
+        <property name="telephone" type="string">
+            <column name="telephone" length="20" />
+        </property>
+        <property name="haspda" type="java.lang.Character">
+            <column name="haspda" length="1" />
+        </property>
+        <property name="deltag" type="java.lang.Character">
+            <column name="deltag" length="1" />
+        </property>
+        <property name="station" type="string">
+            <column name="station" length="40" />
+        </property>
+        <property name="standard" type="string">
+            <column name="standard" length="100" />
+        </property>
+        <set name="decidedzones" inverse="true">
+        	<key>
+        		<column name="staff_id" length="32" />
+        	</key>
+        	<one-to-many class="com.itheima.bos.domain.Decidedzone"/>
+        </set>
+    </class>
+</hibernate-mapping>
