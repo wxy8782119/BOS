@@ -90,4 +90,20 @@ public class StaffAction extends BaseAction<Staff> {
 		this.ids = ids;
 	}
 	
+	/**
+	 * 修改取派员信息
+	 */
+	public String edit() {
+		//显查询数据库，根据id查询原始数据
+		Staff staff = staffService.findById(model.getId());
+		//使用页面提交的数据覆盖
+		staff.setName(model.getName());
+		staff.setTelephone(model.getTelephone());
+		staff.setHaspda(model.getHaspda());
+		staff.setDeltag(model.getDeltag());
+		staff.setStation(model.getStation());
+		staff.setStandard(model.getStandard());
+		staffService.update(staff);
+		return LIST;
+	}
 }
