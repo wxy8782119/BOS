@@ -37,7 +37,28 @@
 	}
 	
 	function doDelete(){
-		alert("删除...");
+		//获取数据表格中所有选中的行，返回数据对象
+		var rows = $("#grid").datagrid("getSelections");
+		if(rows.length == 0){
+			//没有选中记录，弹出提示
+			$.messager.alert("提示信息","请选择需要删除的取派员！","warning");
+		}else{
+			//选中了取派员，弹出确认框
+			$.messager.confirm("删除确认","你确定要删除选中的取派员吗？",function(r){
+				if(r){
+					var array = new Array();
+					//确定，发送请求
+					//获取所有选中的取派员的id
+					for(var i = 0;i<rows.length;i++){
+						var staff = rows[i];//json对象
+						var id = staff.id;
+						array.push(id);						
+					}
+					var ids = array.join(",");
+					location.href = "staffAction_deleteBatch.action?ids="+ids;
+				}
+			});
+		}
 	}
 	
 	function doRestore(){
@@ -56,7 +77,7 @@
 		handler : doAdd
 	}, {
 		id : 'button-delete',
-		text : '作废',
+		text : '删除',
 		iconCls : 'icon-cancel',
 		handler : doDelete
 	},{
@@ -93,14 +114,14 @@
 		}
 	}, {
 		field : 'deltag',
-		title : '是否作废',
+		title : '是否删除',
 		width : 120,
 		align : 'center',
 		formatter : function(data,row, index){
 			if(data=="0"){
 				return "正常使用"
 			}else{
-				return "已作废";
+				return "已删除";
 			}
 		}
 	}, {
@@ -121,17 +142,17 @@
 		
 		// 取派员信息表格
 		$('#grid').datagrid( {
-			iconCls : 'icon-forward',
 			fit : true,
-			border : false,
+			border : true,
 			rownumbers : true,
-			striped : true,
+			striped : false,
 			pageList: [30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/staff.json",
+			url : "staffAction_pageQuery.action",
 			idField : 'id',
 			columns : columns,
+			//为数据表格绑定双击事件
 			onDblClickRow : doDblClickRow
 		});
 		
