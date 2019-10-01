@@ -11,14 +11,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.struts2.ServletActionContext;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.itheima.bos.domain.Region;
 import com.itheima.bos.service.IRegionService;
+import com.itheima.bos.utils.PageBean;
 import com.itheima.bos.utils.PinYin4jUtils;
 import com.itheima.bos.web.action.base.BaseAction;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 
 /**
  * 区域管理
@@ -76,6 +82,41 @@ public class RegionAction extends BaseAction<Region> {
 		}
 		//批量保存
 		regionService.saveBatch(regionList);
+		return NONE;
+	}
+	
+	/**
+	 * 分页查询
+	 */
+	private int page;
+	private int rows;
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getRows() {
+		return rows;
+	}
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+	public String pageQuery() throws Exception {
+		PageBean pageBean = new PageBean();
+		pageBean.setCurrentPage(page);
+		pageBean.setPageSize(rows);
+		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Region.class);
+		pageBean.setDetachedCriteria(detachedCriteria);
+		regionService.pageQuery(pageBean);
+		
+		JsonConfig jsonConfig = new JsonConfig();
+		//指定哪些属性不需要转json
+		jsonConfig.setExcludes(new String[] {"currentPage","detachedCriteria","pageSize"});
+		String json = JSONObject.fromObject(pageBean,jsonConfig).toString();
+		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
+		ServletActionContext.getResponse().getWriter().print(json);
+		
 		return NONE;
 	}
 }
