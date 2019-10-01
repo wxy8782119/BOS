@@ -3,6 +3,7 @@ package com.itheima.bos.web.action.base;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -12,6 +13,7 @@ import com.itheima.bos.utils.PageBean;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 /**
@@ -46,6 +48,27 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T> {
 		//指定哪些属性不需要转json
 		jsonConfig.setExcludes(exclueds);
 		String json = JSONObject.fromObject(o,jsonConfig).toString();
+		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
+		try {
+			ServletActionContext.getResponse().getWriter().print(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 将指定Java对象转为json，并响应到客户端页面
+	 * @param o
+	 * @param exclueds
+	 */
+	public void java2json(List o ,String[] exclueds) {
+		//使用json-lib将PageBean对象转为json，通过输出流写回页面中
+		//JSONObject---将单一对象转化为json
+		//JSONArray----将数组或者集合对象转为json
+		JsonConfig jsonConfig = new JsonConfig();
+		//指定哪些属性不需要转json
+		jsonConfig.setExcludes(exclueds);
+		String json = JSONArray.fromObject(o,jsonConfig).toString();
 		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
 		try {
 			ServletActionContext.getResponse().getWriter().print(json);

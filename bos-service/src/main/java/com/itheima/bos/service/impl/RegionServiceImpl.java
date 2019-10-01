@@ -30,5 +30,19 @@ public class RegionServiceImpl implements IRegionService {
 	public void pageQuery(PageBean pageBean) {
 		regionDao.pageQuery(pageBean);
 	}
+	
+	/**
+	 * 查询所有区域
+	 */
+	public List<Region> findAll() {
+		return regionDao.findAll();
+	}
+	
+	/**
+	 * 根据页面输入进行模糊查询
+	 */
+	public List<Region> findListByQ(String q) {
+		return regionDao.findListByQ(q);
+	}
 
 }

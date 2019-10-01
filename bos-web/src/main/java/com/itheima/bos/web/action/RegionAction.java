@@ -93,4 +93,46 @@ public class RegionAction extends BaseAction<Region> {
 		this.java2json(pageBean, new String[] {"currentPage","detachedCriteria","pageSize"});
 		return NONE;
 	}
+	
+	/**
+	 * 查询所有区域，写回json数据
+	 * @return
+	 */
+	private String q;
+	public String getQ() {
+		return q;
+	}
+	public void setQ(String q) {
+		this.q = q;
+	}
+	public String listajax() {
+		List<Region> list = null;
+		if(StringUtils.isNotBlank(q)) {
+			list = regionService.findListByQ(q);
+		}else {
+			list = regionService.findAll();
+		}
+		this.java2json(list, new String[] {"subareas"});
+		return NONE;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
