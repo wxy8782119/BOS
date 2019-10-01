@@ -88,35 +88,9 @@ public class RegionAction extends BaseAction<Region> {
 	/**
 	 * 分页查询
 	 */
-	private int page;
-	private int rows;
-	public int getPage() {
-		return page;
-	}
-	public void setPage(int page) {
-		this.page = page;
-	}
-	public int getRows() {
-		return rows;
-	}
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
 	public String pageQuery() throws Exception {
-		PageBean pageBean = new PageBean();
-		pageBean.setCurrentPage(page);
-		pageBean.setPageSize(rows);
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Region.class);
-		pageBean.setDetachedCriteria(detachedCriteria);
 		regionService.pageQuery(pageBean);
-		
-		JsonConfig jsonConfig = new JsonConfig();
-		//指定哪些属性不需要转json
-		jsonConfig.setExcludes(new String[] {"currentPage","detachedCriteria","pageSize"});
-		String json = JSONObject.fromObject(pageBean,jsonConfig).toString();
-		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
-		ServletActionContext.getResponse().getWriter().print(json);
-		
+		this.java2json(pageBean, new String[] {"currentPage","detachedCriteria","pageSize"});
 		return NONE;
 	}
 }
