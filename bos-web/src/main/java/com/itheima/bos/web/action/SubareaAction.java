@@ -20,4 +20,13 @@ public class SubareaAction extends BaseAction<Subarea> {
 		subareaService.save(model);
 		return LIST;
 	}
+	
+	/**
+	 * 分页查询
+	 */
+	public String pageQuery() {
+		subareaService.pageQuery(pageBean);
+		this.java2json(pageBean, new String[] {"currentPage","detachedCriteria","pageSize","decidedzone","subareas"});
+		return NONE;
+	}
 }
