@@ -90,7 +90,7 @@ public class RegionAction extends BaseAction<Region> {
 	 */
 	public String pageQuery() throws Exception {
 		regionService.pageQuery(pageBean);
-		this.java2json(pageBean, new String[] {"currentPage","detachedCriteria","pageSize"});
+		this.java2json(pageBean, new String[] {"currentPage","detachedCriteria","pageSize","subareas"});
 		return NONE;
 	}
 	
@@ -115,24 +115,4 @@ public class RegionAction extends BaseAction<Region> {
 		this.java2json(list, new String[] {"subareas"});
 		return NONE;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
