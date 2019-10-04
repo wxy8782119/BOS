@@ -1,5 +1,7 @@
 package com.itheima.bos.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,11 @@ public class SubareaServiceImpl implements ISubareaService {
 	
 	public void pageQuery(PageBean pageBean) {
 		subareaDao.pageQuery(pageBean);
+	}
+
+	public List<Subarea> findAll() {
+		return subareaDao.findAll();
+		
 	}
 
 }
