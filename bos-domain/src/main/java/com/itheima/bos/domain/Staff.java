@@ -15,8 +15,8 @@ public class Staff implements java.io.Serializable {
 	private String id;
 	private String name;
 	private String telephone;
-	private Character haspda='0';//是否有PDA，1：有，0：无
-	private Character deltag='0';//删除标识位，1：已删除，0：未删除
+	private String haspda="0";//是否有PDA，1：有，0：无
+	private String deltag="0";//删除标识位，1：已删除，0：未删除
 	private String station;
 	private String standard;
 	private Set decidedzones = new HashSet(0);
@@ -28,7 +28,7 @@ public class Staff implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Staff(String id, String name, String telephone, Character haspda, Character deltag, String station,
+	public Staff(String id, String name, String telephone, String haspda, String deltag, String station,
 			String standard, Set decidedzones) {
 		this.id = id;
 		this.name = name;
@@ -64,19 +64,19 @@ public class Staff implements java.io.Serializable {
 		this.telephone = telephone;
 	}
 
-	public Character getHaspda() {
+	public String getHaspda() {
 		return this.haspda;
 	}
 
-	public void setHaspda(Character haspda) {
+	public void setHaspda(String haspda) {
 		this.haspda = haspda;
 	}
 
-	public Character getDeltag() {
+	public String getDeltag() {
 		return this.deltag;
 	}
 
-	public void setDeltag(Character deltag) {
+	public void setDeltag(String deltag) {
 		this.deltag = deltag;
 	}
 

@@ -1,6 +1,7 @@
 package com.itheima.bos.web.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
@@ -40,7 +41,7 @@ public class StaffAction extends BaseAction<Staff> {
 	 */
 	public String pageQuery() throws IOException {
 		staffService.pageQuery(pageBean);
-		this.java2json(pageBean, new String[] {"currentPage","detachedCriteria","pageSize"});
+		this.java2json(pageBean, new String[] {"decidedzones","currentPage","detachedCriteria","pageSize"});
 		return NONE;
 	}
 	
@@ -74,5 +75,14 @@ public class StaffAction extends BaseAction<Staff> {
 		staff.setStandard(model.getStandard());
 		staffService.update(staff);
 		return LIST;
+	}
+	
+	/**
+	 * 查询所有未删除的取派员，返回json
+	 */
+	public String listajax() {
+		List<Staff> list = staffService.findListNotDelete();
+		this.java2json(list, new String[] {"decidedzones"});
+		return NONE;
 	}
 }

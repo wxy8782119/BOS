@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.itheima.bos.domain.Region;
+import com.itheima.bos.domain.Staff;
 import com.itheima.bos.domain.Subarea;
 import com.itheima.bos.service.ISubareaService;
 import com.itheima.bos.utils.FileUtils;
@@ -114,6 +115,15 @@ public class SubareaAction extends BaseAction<Subarea> {
 		filename = FileUtils.encodeDownloadFilename(filename, agent);
 		ServletActionContext.getResponse().setHeader("content-disposition", "attachment;filename="+filename);
 		workbook.write(out);
+		return NONE;
+	}
+	
+	/**
+	 * 查询所有未关联到定区的分区，返回json
+	 */
+	public String listajax() {
+		List<Subarea> list = subareaService.findListNotAssociation();
+		this.java2json(list, new String[] {"decidedzone","region"});
 		return NONE;
 	}
 }
