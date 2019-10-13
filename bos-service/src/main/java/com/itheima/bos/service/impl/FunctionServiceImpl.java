@@ -17,7 +17,6 @@ public class FunctionServiceImpl implements IFunctionService {
 	private IFunctionDao dao;
 
 	public List<Function> findAll() {
-
 		return dao.findAll();
 	}
 	
