@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.itheima.bos.dao.IFunctionDao;
 import com.itheima.bos.domain.Function;
 import com.itheima.bos.service.IFunctionService;
+import com.itheima.bos.utils.PageBean;
 @Service
 @Transactional
 public class FunctionServiceImpl implements IFunctionService {
@@ -23,6 +24,10 @@ public class FunctionServiceImpl implements IFunctionService {
 	//添加权限
 	public void save(Function model) {
 		dao.save(model);
+	}
+
+	public void pageQuery(PageBean pageBean) {
+		dao.pageQuery(pageBean);
 	}
 
 }

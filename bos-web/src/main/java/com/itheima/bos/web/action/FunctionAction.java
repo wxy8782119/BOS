@@ -41,4 +41,15 @@ public class FunctionAction extends BaseAction<Function> {
 		service.save(model);
 		return LIST;
 	}
+	
+	/**
+	 * 分页查询
+	 */
+	public String pageQuery() {
+		String page = model.getPage();
+		pageBean.setCurrentPage(Integer.parseInt(page));
+		service.pageQuery(pageBean);
+		this.java2json(pageBean, new String[] {"parentFunction","roles","children"});
+		return NONE;
+	}
 }
