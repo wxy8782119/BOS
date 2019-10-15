@@ -1,5 +1,7 @@
 package com.itheima.bos.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.itheima.bos.dao.IRoleDao;
 import com.itheima.bos.domain.Function;
 import com.itheima.bos.domain.Role;
 import com.itheima.bos.service.IRoleService;
+import com.itheima.bos.utils.PageBean;
 @Service
 @Transactional
 public class RoleServiceImpl implements IRoleService {
@@ -29,6 +32,20 @@ public class RoleServiceImpl implements IRoleService {
 				role.getFunctions().add(function);
 			}
 		}
+	}
+
+	/**
+	 * 分页查询
+	 */
+	public void pageQuery(PageBean pageBean) {
+		dao.pageQuery(pageBean);
+	}
+
+	/**
+	 * 查询所有的角色数据，返回json
+	 */
+	public List<Role> findAll() {
+		return dao.findAll();
 	}
 
 }

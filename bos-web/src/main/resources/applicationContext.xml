@@ -64,7 +64,7 @@
 	<tx:annotation-driven/>
 	
 	<!-- 注册crm客户端代理对象 -->
-	<jaxws:client id="crmClient" serviceClass="com.itheima.crm.ICustomerService" address="http://10.12.189.5:8080/crm_cxf/service/customer" />
+	<jaxws:client id="crmClient" serviceClass="com.itheima.crm.ICustomerService" address="http://localhost:8080/crm_cxf/service/customer" />
 	
 	<!-- 配置shiro框架的过滤器工厂对象 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">

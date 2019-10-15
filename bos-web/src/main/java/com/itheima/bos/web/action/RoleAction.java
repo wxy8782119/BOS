@@ -1,5 +1,7 @@
 package com.itheima.bos.web.action;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -32,4 +34,23 @@ public class RoleAction extends BaseAction<Role> {
 		service.save(model,functionIds);
 		return LIST;
 	}
+	
+	/**
+	 * 分页查询
+	 */
+	public String pageQuery() {
+		service.pageQuery(pageBean);
+		this.java2json(pageBean, new String[] {"functions","users"});
+		return NONE;
+	}
+	
+	/**
+	 * 查询所有的角色数据，返回json
+	 */
+	public String listajax() {
+		List<Role> list = service.findAll();
+		this.java2json(list, new String[] {"functions","users"});
+		return NONE;
+	}
+	
 }
