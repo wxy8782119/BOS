@@ -7,4 +7,6 @@ import com.itheima.bos.domain.Function;
 
 public interface IFunctionDao extends IBaseDao<Function> {
 
+	public List<Function> findFunctionListByUserId(String id);
+
 }

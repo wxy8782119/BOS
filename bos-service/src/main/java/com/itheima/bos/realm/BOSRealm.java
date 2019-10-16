@@ -1,5 +1,8 @@
 package com.itheima.bos.realm;
 
+import java.util.List;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -9,14 +12,19 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.itheima.bos.dao.IFunctionDao;
 import com.itheima.bos.dao.IUserDao;
+import com.itheima.bos.domain.Function;
 import com.itheima.bos.domain.User;
 
 public class BOSRealm extends AuthorizingRealm {
 	@Autowired
 	private IUserDao userDao;
+	@Autowired
+	private IFunctionDao functionDao;
 	
 	//认证方法
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
@@ -40,9 +48,24 @@ public class BOSRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		//为用户授权
-		info.addStringPermission("staff-list");
+		//info.addStringPermission("staff-list");
 		
-		//TODO 后期需要修改为根据当前登录用户查询数据库，获取实际对应的权限
+		//获取当前登录用户对象
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
+		//根据当前登录用户查询数据库，获取实际对应的权限
+		List<Function> list = null;
+		if(user.getUsername().equals("admin")) {
+			DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Function.class);
+			//超级管理员内置用户，查询所有权限数据
+			list = functionDao.findByCriteria(detachedCriteria);
+		}else {
+			list = functionDao.findFunctionListByUserId(user.getId());
+		}
+		
+		for (Function function : list) {
+			info.addStringPermission(function.getCode());
+		}
+		
 		return info;
 	}
 
