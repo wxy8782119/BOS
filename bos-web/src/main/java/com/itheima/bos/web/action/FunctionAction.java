@@ -52,4 +52,13 @@ public class FunctionAction extends BaseAction<Function> {
 		this.java2json(pageBean, new String[] {"parentFunction","roles","children"});
 		return NONE;
 	}
+	
+	/**
+	 * 根据当前登录人查询对应的菜单数据，返回json
+	 */
+	public String findMenu() {
+		List<Function> list = service.findMenu();
+		this.java2json(list, new String[] {"parentFunction","roles","children"});
+		return NONE;
+	}
 }
