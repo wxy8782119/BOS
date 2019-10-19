@@ -52,4 +52,11 @@ public class SubareaServiceImpl implements ISubareaService {
 		return subareaDao.findByCriteria(detachedCriteria);
 	}
 
+	/**
+	 * 查询区域分区分布图数据
+	 */
+	public List<Object> findSubareasGroupByProvince() {
+		return subareaDao.findSubareasGroupByProvince();
+	}
+
 }
